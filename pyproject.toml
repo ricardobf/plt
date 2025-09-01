@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "plt"
+version = "0.1.0"
+description = "CLI to interact with Bitbucket Cloud and GitHub APIs"
+authors = [{ name = "Ricardo Barbosa" }]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+  "typer>=0.17.3",
+  "requests>=2.32.5",
+  "python-dotenv>=1.1.1",
+  "pytest>=8.4.1",
+  "pytest-mock>=3.14.1"
+]
+
+[project.scripts]
+plt = "plt.cli:app"
+
+[tool.pytest.ini_options]
+minversion = "8.4.1"
+addopts = "-q"
+pythonpath = ["src"]
