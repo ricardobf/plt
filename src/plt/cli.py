@@ -2,15 +2,15 @@ import typer
 from dotenv import load_dotenv
 
 from plt.bitbucket import BitbucketOAuthClient, BitbucketError
-# from plt.github_api import GitHubClient, GitHubError
+from plt.github import GitHubOAuthClient, GitHubError
 
 load_dotenv()
 
 app = typer.Typer(help="plt: Bitbucket & GitHub helper")
 bitbucket_app = typer.Typer(help="Bitbucket commands")
-# github_app = typer.Typer(help="GitHub commands")
+github_app = typer.Typer(help="GitHub commands")
 app.add_typer(bitbucket_app, name="bitbucket")
-# app.add_typer(github_app, name="github")
+app.add_typer(github_app, name="github")
 
 # Bitbucket - Create Project
 @bitbucket_app.command("create-project")
@@ -87,6 +87,20 @@ def add_branch_restriction(
     result = client.create_branch_restriction(workspace, repo, kind, pattern, users_list)
     typer.echo(result)
   except BitbucketError as e:
+    typer.echo(str(e))
+
+# GitHub - Create Project
+@github_app.command("create-project")
+def create_project(
+  name: str = typer.Option(..., "--name", help="Project name"),
+  body: str = typer.Option(None, "--body", help="Project body"),
+  is_private: bool = typer.Option(True, "--is-private", help="Make project private"),
+):
+  client = GitHubOAuthClient()
+  try:
+    result = client.create_project(name, body, is_private)
+    typer.echo(result)
+  except GitHubError as e:
     typer.echo(str(e))
 
 if __name__ == "__main__":
