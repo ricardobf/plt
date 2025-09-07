@@ -106,7 +106,7 @@ def project(
   key: Annotated[str, typer.Option(help="Project key")] = "",
   is_private: Annotated[bool, typer.Option(help="Make project private")] = True
 ):
-  client = GitHubClient()
+  client = GitHub()
   try:
     if action == "create":
       result = client.create_project(name, body, is_private)
