@@ -1,107 +1,120 @@
 import typer
-from dotenv import load_dotenv
+from typing_extensions import Annotated
 
-from plt.bitbucket import BitbucketOAuthClient, BitbucketError
-from plt.github import GitHubOAuthClient, GitHubError
+from plt.bitbucket.bitbucket import Bitbucket, BitbucketError
+from plt.github.github import GitHub, GitHubError
 
-load_dotenv()
+app = typer.Typer(help="PLT Challenge: VCS management CLI")
 
-app = typer.Typer(help="plt: Bitbucket & GitHub helper")
 bitbucket_app = typer.Typer(help="Bitbucket commands")
 github_app = typer.Typer(help="GitHub commands")
 app.add_typer(bitbucket_app, name="bitbucket")
 app.add_typer(github_app, name="github")
 
-# Bitbucket - Create Project
-@bitbucket_app.command("create-project")
-def create_project(
+# Bitbucket - Project
+@bitbucket_app.command("project")
+def project(
+  action: str = typer.Option(..., "--action", help="Action to perform (create, delete)"),
   workspace: str = typer.Option(..., "--workspace", help="Bitbucket workspace"),
-  key: str = typer.Option(..., "--key", help="Project key"),
-  name: str = typer.Option(..., "--name", help="Project name"),
-  is_private: bool = typer.Option(True, "--is-private", help="Make project private"),
+  key: Annotated[str, typer.Option(help="Project key")] = "",
+  name: Annotated[str, typer.Option(help="Project name")] = "",
+  is_private: Annotated[bool, typer.Option(help="Make project private")] = True,
+  user_uuid: Annotated[str | None, typer.Option(help="User UUID")] = None,
+  permission: Annotated[str | None, typer.Option(help="Project permission")] = None
 ):
-  client = BitbucketOAuthClient()
+  bitbucket = Bitbucket()
   try:
-    result = client.create_project(workspace, key, name, is_private)
-    typer.echo(result)
+    if action == "list":
+        result = bitbucket.project.list(workspace)
+        typer.echo(result)
+    elif action == "create":
+        result = bitbucket.project.create(workspace, key, name, is_private)
+        typer.echo(result)
+    elif action == "delete":
+        result = bitbucket.project.delete(workspace, key)
+        typer.echo(result)
+    elif action == "list-user-permissions":
+        result = bitbucket.project.list_user_permissions(workspace, key)
+        typer.echo(result)
+    elif action == "grant-user-permission":
+        result = bitbucket.project.grant_user_permission(workspace, key, user_uuid, permission)
+        typer.echo(result)
+    elif action == "revoke-user-permissions":
+        result = bitbucket.project.revoke_user_permissions(workspace, key, user_uuid)
+        typer.echo(result)
+    else:
+        typer.echo(f"Action '{action}' not supported.")
   except BitbucketError as e:
     typer.echo(str(e))
 
-# Bitbucket - Create Repository
-@bitbucket_app.command("create-repo")
-def create_repo(
+# Bitbucket - Repository
+@bitbucket_app.command("repository")
+def repository(
+  action: str = typer.Option(..., "--action", help="Action to perform (create, delete)"),
   workspace: str = typer.Option(..., "--workspace", help="Bitbucket workspace"),
-  repo: str = typer.Option(..., "--repo", help="Repository slug"),
-  project_key: str = typer.Option(None, "--project-key", help="Project key"),
-  description: str = typer.Option(None, "--description", help="Repository description"),
-  is_private: bool = typer.Option(True, "--is-private", help="Make repository private"),
+  key: Annotated[str, typer.Option(help="Repository slug")] = "",
+  project_key: Annotated[str | None, typer.Option(help="Project key")] = None,
+  description: Annotated[str | None, typer.Option(help="Repository description")] = None,
+  is_private: Annotated[bool, typer.Option(help="Make repository private")] = True,
+  user_uuid: Annotated[str | None, typer.Option(help="User UUID")] = None,
+  permission: Annotated[str | None, typer.Option(help="Repository permission")] = None
 ):
-  client = BitbucketOAuthClient()
+  bitbucket = Bitbucket()
   try:
-    result = client.create_repository(workspace, repo, project_key, is_private, description=description)
-    typer.echo(result)
+    if action == "create":
+      result = bitbucket.repository.create(workspace, key, project_key, is_private, description)
+      typer.echo(result)
+    elif action == "delete":
+      result = bitbucket.repository.delete(workspace, key)
+      typer.echo(result)
+    elif action == "list-user-permissions":
+      result = bitbucket.repository.list_user_permissions(workspace, key)
+      typer.echo(result)
+    elif action == "grant-user-permission":
+      result = bitbucket.repository.grant_user_permission(workspace, key, user_uuid, permission)
+      typer.echo(result)
+    elif action == "revoke-user-permissions":
+      result = bitbucket.repository.revoke_user_permissions(workspace, key, user_uuid)
+      typer.echo(result)
+    else:
+      typer.echo(f"Action '{action}' not supported.")
   except BitbucketError as e:
     typer.echo(str(e))
 
-# Bitbucket - Grant User Permission
-@bitbucket_app.command("grant-user")
-def grant_user(
-  workspace: str = typer.Option(..., "--workspace", help="Bitbucket workspace"),
-  repo: str = typer.Option(..., "--repo", help="Repository slug"),
-  user_uuid: str = typer.Option(..., "--user-uuid", help="User UUID"),
-  permission: str = typer.Option("write", "--permission", help="Repository permission"),
+# Bitbucket - Workspace
+@bitbucket_app.command("workspace")
+def workspace(
+  action: str = typer.Option(..., "--action", help="Action to perform (list-permissions)"),
+  workspace: str = typer.Option(..., "--workspace", help="Bitbucket workspace")
 ):
-  client = BitbucketOAuthClient()
+  bitbucket = Bitbucket()
   try:
-    result = client.add_repo_user_permission(workspace, repo, user_uuid, permission)
-    typer.echo(result)
+    if action == "list-user-permissions":
+      result = bitbucket.workspace.list_user_permissions(workspace)
+      typer.echo(result)
+    else:
+      typer.echo(f"Action '{action}' not supported.")
   except BitbucketError as e:
     typer.echo(str(e))
 
-# Bitbucket - Revoke User Permission
-@bitbucket_app.command("revoke-user")
-def revoke_user(
-  workspace: str = typer.Option(..., "--workspace", help="Bitbucket workspace"),
-  repo: str = typer.Option(..., "--repo", help="Repository slug"),
-  user_uuid: str = typer.Option(..., "--user-uuid", help="User UUID"),
-):
-  client = BitbucketOAuthClient()
-  try:
-    result = client.remove_repo_user_permission(workspace, repo, user_uuid)
-    typer.echo(result)
-  except BitbucketError as e:
-    typer.echo(str(e))
-
-# Bitbucket - Add Branch Restriction
-@bitbucket_app.command("add-branch-restriction")
-def add_branch_restriction(
-  workspace: str = typer.Option(..., "--workspace", help="Bitbucket workspace"),
-  repo: str = typer.Option(..., "--repo", help="Repository slug"),
-  kind: str = typer.Option(..., "--kind", help="Restriction kind"),
-  pattern: str = typer.Option(..., "--pattern", help="Branch pattern"),
-  users: str = None
-):
-  client = BitbucketOAuthClient()
-  users_list = users.split(",") if users else None
-  try:
-    result = client.create_branch_restriction(workspace, repo, kind, pattern, users_list)
-    typer.echo(result)
-  except BitbucketError as e:
-    typer.echo(str(e))
-
-# GitHub - Create Project
-@github_app.command("create-project")
-def create_project(
+# GitHub - Project
+@github_app.command("project")
+def project(
+  action: str = typer.Option(..., "--action", help="Action to perform (create, delete)"),
   name: str = typer.Option(..., "--name", help="Project name"),
   body: str = typer.Option(None, "--body", help="Project body"),
-  is_private: bool = typer.Option(True, "--is-private", help="Make project private"),
+  key: Annotated[str, typer.Option(help="Project key")] = "",
+  is_private: Annotated[bool, typer.Option(help="Make project private")] = True
 ):
-  client = GitHubOAuthClient()
+  client = GitHubClient()
   try:
-    result = client.create_project(name, body, is_private)
-    typer.echo(result)
+    if action == "create":
+      result = client.create_project(name, body, is_private)
+      typer.echo(result)
+    elif action == "delete":
+      result = client.delete_project(key)
+      typer.echo(result)
+    else:
+      typer.echo(f"Action '{action}' not supported.")
   except GitHubError as e:
     typer.echo(str(e))
-
-if __name__ == "__main__":
-  app()

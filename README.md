@@ -18,24 +18,59 @@ cp .env.example .env
 
 ## Usage
 
+### List Projects
+
+```bash
+plt bitbucket project --action list --workspace plt-workspace
+```
+
 ### Create Project
 
 ```bash
-plt bitbucket create-project --workspace plt-workspace --key PLT --name "PLT Project" --is-private
+plt bitbucket project --action create --workspace plt-workspace --key PLT --name "PLT Project" --is-private
+```
+
+### Delete Project
+
+```bash
+plt bitbucket project --action delete --workspace plt-workspace --key PLT
 ```
 
 ### Create Repository
 
 ```bash
-plt bitbucket create-repo --workspace plt-workspace --repo plt-repo --project-key PLT --is-private
+plt bitbucket repository --action create --workspace plt-workspace --repo plt-repo --project-key PLT --is-private
 ```
 
-### Grant User Access to Repository
+### Delete Repository
 
 ```bash
-plt bitbucket grant-user --workspace plt-workspace --repo plt-repo --user-uuid "{user-uuid}" --permission write
+plt bitbucket repository --action delete --workspace plt-workspace --repo plt-repo --project-key PLT
 ```
 
+### List User Permissions to a given Repository
+
+```bash
+plt bitbucket repository --action list-user-permissions --workspace plt-workspace --repo plt-repo
+```
+
+### Grant User Access to a given Repository
+
+```bash
+plt bitbucket repository --action grant-user-permission --workspace plt-workspace --repo plt-repo --user-uuid "{user_uuid}" --permission write
+```
+
+### List User Permissions in Workspace
+
+```bash
+plt bitbucket workspace --action list-user-permissions --workspace plt-workspace 
+```
+
+## Recompile requirements.txt file
+
+```bash
+pip-compile --output-file=requirements.txt pyproject.toml
+```
 
 ## Tests
 
