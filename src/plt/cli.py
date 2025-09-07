@@ -97,22 +97,24 @@ def workspace(
   except BitbucketError as e:
     typer.echo(str(e))
 
-# GitHub - Project
-@github_app.command("project")
-def project(
+# GitHub - Repository
+@github_app.command("repository")
+def repository(
   action: str = typer.Option(..., "--action", help="Action to perform (create, delete)"),
-  name: str = typer.Option(..., "--name", help="Project name"),
-  body: str = typer.Option(None, "--body", help="Project body"),
-  key: Annotated[str, typer.Option(help="Project key")] = "",
-  is_private: Annotated[bool, typer.Option(help="Make project private")] = True
+  name: Annotated[str, typer.Option(help="Repository name")] = "",
+  description: Annotated[str | None, typer.Option(help="Repository description")] = None,
+  is_private: Annotated[bool, typer.Option(help="Make repository private")] = True
 ):
   client = GitHub()
   try:
-    if action == "create":
-      result = client.create_project(name, body, is_private)
+    if action == "list":
+      result = client.repository.list_repos(name)
+      typer.echo(result)
+    elif action == "create":
+      result = client.repository.create_repo(name, description, is_private)
       typer.echo(result)
     elif action == "delete":
-      result = client.delete_project(key)
+      result = client.repository.delete_repo(name)
       typer.echo(result)
     else:
       typer.echo(f"Action '{action}' not supported.")

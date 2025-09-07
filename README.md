@@ -16,7 +16,7 @@ cp .env.example .env
 # Edit .env with your Bitbucket OAuth Client ID and Secret
 ```
 
-## Usage
+## Bitbucket Usage
 
 ### List Projects
 
@@ -64,6 +64,26 @@ plt bitbucket repository --action grant-user-permission --workspace plt-workspac
 
 ```bash
 plt bitbucket workspace --action list-user-permissions --workspace plt-workspace 
+```
+
+## GitHub Usage
+
+### List Repositories
+
+```bash
+plt github repository --action list
+```
+
+### Create Repository
+
+```bash
+plt github repository --action create --name test-repo
+```
+
+### Delete Repository
+
+```bash
+plt github repository --action delete --name test-repo
 ```
 
 ## Recompile requirements.txt file
