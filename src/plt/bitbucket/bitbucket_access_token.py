@@ -29,4 +29,3 @@
 #     # Initialize API resources
 #     self.project = Project(self.session, self.base_url)
 #     self.repository = Repository(self.session, self.base_url)
-

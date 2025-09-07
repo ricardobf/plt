@@ -148,4 +148,3 @@
 
 #     with pytest.raises(WorkspaceError):
 #         workspace.get("unknown-workspace")
-
