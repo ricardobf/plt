@@ -7,6 +7,7 @@ class Workspace:
     self.base_url = base_url
 
   def list_user_permissions(self, workspace: str):
+    """List all user permissions on a workspace"""
     url = f"{self.base_url}/workspaces/{workspace}/permissions"
     r = self.session.get(url)
     if r.status_code != 200:

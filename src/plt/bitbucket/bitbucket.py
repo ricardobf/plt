@@ -25,8 +25,8 @@ class Bitbucket:
     self.repository = Repository(self.session, self.base_url)
     self.workspace = Workspace(self.session, self.base_url)
 
-  # Authenticate with Bitbucket API
   def _authenticate(self):
+    """Authenticate and set the access token in session headers"""
     url = "https://bitbucket.org/site/oauth2/access_token"
     r = requests.post(
       url,
