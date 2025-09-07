@@ -4,28 +4,48 @@
 #
 #    pip-compile --output-file=requirements.txt pyproject.toml
 #
+build==1.3.0
+    # via pip-tools
 certifi==2025.8.3
     # via requests
 charset-normalizer==3.4.3
     # via requests
 click==8.2.1
-    # via typer
+    # via
+    #   pip-tools
+    #   typer
+flake8==7.3.0
+    # via plt (pyproject.toml)
 idna==3.10
     # via requests
 iniconfig==2.1.0
     # via pytest
 markdown-it-py==4.0.0
     # via rich
+mccabe==0.7.0
+    # via flake8
 mdurl==0.1.2
     # via markdown-it-py
 packaging==25.0
-    # via pytest
+    # via
+    #   build
+    #   pytest
+pip-tools==7.5.0
+    # via plt (pyproject.toml)
 pluggy==1.6.0
     # via pytest
+pycodestyle==2.14.0
+    # via flake8
+pyflakes==3.4.0
+    # via flake8
 pygments==2.19.2
     # via
     #   pytest
     #   rich
+pyproject-hooks==1.2.0
+    # via
+    #   build
+    #   pip-tools
 pytest==8.4.2
     # via
     #   plt (pyproject.toml)
@@ -46,3 +66,9 @@ typing-extensions==4.15.0
     # via typer
 urllib3==2.5.0
     # via requests
+wheel==0.45.1
+    # via pip-tools
+
+# The following packages are considered to be unsafe in a requirements file:
+# pip
+# setuptools
