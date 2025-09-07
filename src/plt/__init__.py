@@ -1,3 +1,3 @@
-""" PLT Challenge : VCS Management CLI """
+"""PLT Challenge : VCS Management CLI"""
 
 from .cli import app
