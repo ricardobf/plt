@@ -93,23 +93,22 @@ class Repository:
     ):
         """
         Configure branch permissions to exempt certain users from requiring PRs.
-        For Bitbucket Cloud API.
         """
         if exempt_users is None:
             exempt_users = []
+        if exempt_groups is None:
+            exempt_groups = []
 
         url = (
             f"{self.base_url}/repositories/{workspace}/{repo_slug}/branch-restrictions"
         )
 
-        payload = [
-            {
-                "kind": "push",
-                "pattern": branch,
-                "users": exempt_users,
-                "groups": exempt_groups,
-            }
-        ]
+        payload = {
+            "kind": "push",
+            "pattern": branch,
+            "users": [{"type": "user", "uuid": u} for u in exempt_users],
+            "groups": [{"type": "group", "slug": g} for g in exempt_groups],
+        }
 
         r = self.session.post(url, json=payload)
         if r.status_code not in (200, 201):

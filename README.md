@@ -72,6 +72,12 @@ plt bitbucket repository --action grant-user-permission --workspace plt-workspac
 plt bitbucket workspace --action list-user-permissions --workspace plt-workspace 
 ```
 
+### Configure Branch Permission to a given Repository
+
+```bash
+plt bitbucket repository --action configure-branch-permissions --workspace plt-workspace --key plt-repo --branch main --user-uuid "{user_uuid}"
+```
+
 ## GitHub Usage
 
 ### List Repositories
