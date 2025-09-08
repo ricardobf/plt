@@ -42,7 +42,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.6.0
+          terraform_version: 1.13.0
       - name: Terraform init
         run: terraform -chdir=terraform init
       - name: Terraform fmt
