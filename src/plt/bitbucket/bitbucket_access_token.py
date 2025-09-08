@@ -7,6 +7,7 @@
 # class BitbucketError(Exception):
 #   pass
 
+
 # class Bitbucket:
 #   def __init__(self):
 #     """
