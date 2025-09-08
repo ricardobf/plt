@@ -2,7 +2,7 @@ FROM python:3.13-slim
 
 WORKDIR /app
 
-COPY pyproject.toml setup.cfg setup.py requirements.txt ./
+COPY pyproject.toml requirements.txt ./
 RUN pip install --no-cache-dir -e .
 
 COPY src/ ./src/
