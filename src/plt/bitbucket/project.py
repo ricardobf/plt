@@ -15,26 +15,26 @@ class Project:
             raise ProjectError(f"Error listing projects: {r.status_code} {r.text}")
         return r.json()
 
-    def create(self, workspace: str, key: str, name: str, is_private: bool = True):
+    def create(self, workspace: str, project: str, is_private: bool = True):
         """Create a new project in the specified workspace"""
         url = f"{self.base_url}/workspaces/{workspace}/projects/"
-        payload = {"key": key, "name": name, "is_private": is_private}
+        payload = {"key": project, "name": project, "is_private": is_private}
         r = self.session.post(url, json=payload)
         if r.status_code not in (200, 201):
             raise ProjectError(f"Error creating project: {r.status_code} {r.text}")
         return r.json()
 
-    def delete(self, workspace: str, project_key: str):
+    def delete(self, workspace: str, project: str):
         """Delete a project in the specified workspace"""
-        url = f"{self.base_url}/workspaces/{workspace}/projects/{project_key}"
+        url = f"{self.base_url}/workspaces/{workspace}/projects/{project}"
         r = self.session.delete(url)
         if r.status_code != 204:
             raise ProjectError(f"Error deleting project: {r.status_code} {r.text}")
-        return f"Project {project_key} deleted successfully."
+        return f"Project {project} deleted successfully."
 
-    def list_user_permissions(self, workspace: str, project_key: str):
+    def list_user_permissions(self, workspace: str, project: str):
         """List all user permissions for a project in the specified workspace"""
-        url = f"{self.base_url}/workspaces/{workspace}/projects/{project_key}/permissions-config/users"
+        url = f"{self.base_url}/workspaces/{workspace}/projects/{project}/permissions-config/users"
         r = self.session.get(url)
         if r.status_code != 200:
             raise ProjectError(
@@ -43,10 +43,10 @@ class Project:
         return r.json()
 
     def grant_user_permission(
-        self, workspace: str, project_key: str, user_uuid: str, permission: str
+        self, workspace: str, project: str, user_uuid: str, permission: str
     ):
         """Grant user permissions for a project in the specified workspace"""
-        url = f"{self.base_url}/workspaces/{workspace}/projects/{project_key}/permissions-config/users/{user_uuid}"
+        url = f"{self.base_url}/workspaces/{workspace}/projects/{project}/permissions-config/users/{user_uuid}"
         payload = {"permission": permission}
         r = self.session.put(url, json=payload)
         if r.status_code != 200:
@@ -55,9 +55,9 @@ class Project:
             )
         return r.json()
 
-    def revoke_user_permissions(self, workspace: str, project_key: str, user_uuid: str):
+    def revoke_user_permissions(self, workspace: str, project: str, user_uuid: str):
         """Revoke user permissions for a project in the specified workspace"""
-        url = f"{self.base_url}/workspaces/{workspace}/projects/{project_key}/permissions-config/users/{user_uuid}"
+        url = f"{self.base_url}/workspaces/{workspace}/projects/{project}/permissions-config/users/{user_uuid}"
         r = self.session.delete(url)
         if r.status_code != 204:
             raise ProjectError(

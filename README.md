@@ -27,55 +27,59 @@ pip-compile --output-file=requirements.txt pyproject.toml
 ### List Projects
 
 ```bash
-plt bitbucket project --action list --workspace plt-workspace
+plt --provider bitbucket --resource project --action list --workspace plt-workspace
 ```
 
 ### Create/Delete Project
 
 ```bash
-plt bitbucket project --action [create/delete] --workspace plt-workspace --key PLT --name "PLT Project" --is-private
+plt --provider bitbucket --resource project --action create --workspace plt-workspace --project PLT --is-private
+plt --provider bitbucket --resource project --action delete --workspace plt-workspace --project PLT
 ```
 
 ### List User Permissions - Project
 
 ```bash
-plt bitbucket project --action list-user-permissions --workspace plt-workspace --key PLT
+plt --provider bitbucket --resource project --action list --workspace plt-workspace --project PLT --user-permissions
 ```
 
 ### Grant/Revoke User Permissions - Project
 
 ```bash
-plt bitbucket project --action [grant/revoke]-user-permissions --workspace plt-workspace --key PLT --user-uuid "{user_uuid}" --permission write
+plt --provider bitbucket --resource project --action grant --workspace plt-workspace --project PLT --user-uuid {user_uuid} --permission admin
+plt --provider bitbucket --resource project --action revoke --workspace plt-workspace --project PLT --user-uuid {user_uuid}
 ```
 
 ### Create/Delete Repository
 
 ```bash
-plt bitbucket repository --action [create/delete] --workspace plt-workspace --key plt-repo --project-key PLT --is-private
+plt --provider bitbucket --resource repository --action create --workspace plt-workspace --repo plt-repo --project PLT --is-private
+plt --provider bitbucket --resource repository --action delete --workspace plt-workspace --repo plt-repo --project PLT
 ```
 
 ### List User Permissions to a given Repository
 
 ```bash
-plt bitbucket repository --action list-user-permissions --workspace plt-workspace --key plt-repo
+plt --provider bitbucket --resource repository --action list --workspace plt-workspace --repo plt-repo --user-permissions
 ```
 
-### Grant User Access to a given Repository
+### Grant/Revoke User Access to a given Repository
 
 ```bash
-plt bitbucket repository --action grant-user-permission --workspace plt-workspace --key plt-repo --user-uuid "{user_uuid}" --permission write
+plt --provider bitbucket --resource repository --action grant --workspace plt-workspace --repo plt-repo --user-uuid {user_uuid} --permission write
+plt --provider bitbucket --resource repository --action revoke --workspace plt-workspace --repo plt-repo --user-uuid {user_uuid}
 ```
 
 ### List User Permissions in Workspace
 
 ```bash
-plt bitbucket workspace --action list-user-permissions --workspace plt-workspace 
+plt --provider bitbucket --resource workspace --action list --workspace plt-workspace --user-permissions
 ```
 
 ### Configure Branch Permission to a given Repository
 
 ```bash
-plt bitbucket repository --action configure-branch-permissions --workspace plt-workspace --key plt-repo --branch main --user-uuid "{user_uuid}"
+plt --provider bitbucket --resource repository --action configure-branch-permissions --workspace plt-workspace --repo plt-repo --branch main --user-uuid {user_uuid}
 ```
 
 ## GitHub Usage
@@ -89,7 +93,8 @@ plt github repository --action list
 ### Create/Delete Repository
 
 ```bash
-plt github repository --action [create/delete] --name plt-repo
+plt --provider github --resource repository --action create --repo plt-repo
+plt --provider github --resource repository --action delete --repo plt-repo
 ```
 
 ## Tests

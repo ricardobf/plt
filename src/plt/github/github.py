@@ -20,6 +20,4 @@ class GitHub:
         self.session = requests.Session()
         self.session.auth = self.auth
 
-        # self.project = Project(self.session, self.base_url)
         self.repository = Repository(self.session, self.base_url, self.username)
-        # self.workspace = Workspace(self.session, self.base_url)

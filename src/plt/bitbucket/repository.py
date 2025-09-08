@@ -10,17 +10,17 @@ class Repository:
     def create(
         self,
         workspace: str,
-        repo_slug: str,
-        project_key: str | None = None,
+        repo: str,
+        project: str | None = None,
         is_private: bool = True,
         scm: str = "git",
         description: str | None = None,
     ):
         """Create a new repository in the specified workspace"""
-        url = f"{self.base_url}/repositories/{workspace}/{repo_slug}"
+        url = f"{self.base_url}/repositories/{workspace}/{repo}"
         payload = {"scm": scm, "is_private": is_private, "description": description}
-        if project_key:
-            payload["project"] = {"key": project_key}
+        if project:
+            payload["project"] = {"key": project}
         r = self.session.post(url, json=payload)
         if r.status_code not in (200, 201):
             raise RepositoryError(
@@ -28,19 +28,21 @@ class Repository:
             )
         return r.json()
 
-    def delete(self, workspace: str, repo_slug: str):
+    def delete(self, workspace: str, repo: str):
         """Delete a repository in the specified workspace"""
-        url = f"{self.base_url}/repositories/{workspace}/{repo_slug}"
+        url = f"{self.base_url}/repositories/{workspace}/{repo}"
         r = self.session.delete(url)
         if r.status_code != 204:
             raise RepositoryError(
                 f"Error deleting repository: {r.status_code} {r.text}"
             )
-        return f"Repository {repo_slug} deleted successfully."
+        return f"Repository {repo} deleted successfully."
 
-    def list_user_permissions(self, workspace: str, repo_slug: str):
+    def list_user_permissions(self, workspace: str, repo: str):
         """List all user permissions on a repository in the specified workspace"""
-        url = f"{self.base_url}/repositories/{workspace}/{repo_slug}/permissions-config/users"
+        url = (
+            f"{self.base_url}/repositories/{workspace}/{repo}/permissions-config/users"
+        )
         r = self.session.get(url)
         if r.status_code != 200:
             raise RepositoryError(
@@ -49,10 +51,10 @@ class Repository:
         return r.json()
 
     def grant_user_permission(
-        self, workspace: str, repo_slug: str, user_uuid: str, permission: str
+        self, workspace: str, repo: str, user_uuid: str, permission: str
     ):
         """Grant a user permission on a repository in the specified workspace"""
-        url = f"{self.base_url}/repositories/{workspace}/{repo_slug}/permissions-config/users/{user_uuid}"
+        url = f"{self.base_url}/repositories/{workspace}/{repo}/permissions-config/users/{user_uuid}"
         payload = {"permission": permission}
         r = self.session.put(url, json=payload)
         if r.status_code not in (200, 201):
@@ -61,9 +63,9 @@ class Repository:
             )
         return r.json()
 
-    def revoke_user_permissions(self, workspace: str, repo_slug: str, user_uuid: str):
+    def revoke_user_permissions(self, workspace: str, repo: str, user_uuid: str):
         """Revoke a user's permission on a repository in the specified workspace"""
-        url = f"{self.base_url}/repositories/{workspace}/{repo_slug}/permissions-config/users/{user_uuid}"
+        url = f"{self.base_url}/repositories/{workspace}/{repo}/permissions-config/users/{user_uuid}"
         r = self.session.delete(url)
         if r.status_code != 204:
             raise RepositoryError(
@@ -71,11 +73,9 @@ class Repository:
             )
         return f"User {user_uuid} permission revoked successfully."
 
-    def list_branch_permissions(self, workspace: str, repo_slug: str):
+    def list_branch_permissions(self, workspace: str, repo: str):
         """List all branch permissions for a repository in the specified workspace"""
-        url = (
-            f"{self.base_url}/repositories/{workspace}/{repo_slug}/branch-restrictions"
-        )
+        url = f"{self.base_url}/repositories/{workspace}/{repo}/branch-restrictions"
         r = self.session.get(url)
         if r.status_code != 200:
             raise RepositoryError(
@@ -86,7 +86,7 @@ class Repository:
     def configure_branch_permissions(
         self,
         workspace: str,
-        repo_slug: str,
+        repo: str,
         branch: str = "main",
         exempt_users: list[str] | None = None,
         exempt_groups: list[str] | None = None,
@@ -99,9 +99,7 @@ class Repository:
         if exempt_groups is None:
             exempt_groups = []
 
-        url = (
-            f"{self.base_url}/repositories/{workspace}/{repo_slug}/branch-restrictions"
-        )
+        url = f"{self.base_url}/repositories/{workspace}/{repo}/branch-restrictions"
 
         payload = {
             "kind": "push",

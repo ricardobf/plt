@@ -8,31 +8,26 @@ class Repository:
         self.base_url = base_url
         self.username = username
 
-    def list_repos(self, name, type=None):
-        """List repositories for the authenticated user, optionally filtering by name and type"""
+    def list(self):
+        """List repositories for the authenticated user"""
         url = f"{self.base_url}/users/{self.username}/repos"
-        params = {}
-        if name:
-            params["name"] = name
-        if type:
-            params["type"] = type
-        response = self.session.get(url, params=params)
+        response = self.session.get(url)
         if response.status_code != 200:
             raise RepositoryError(f"Failed to list repositories: {response.text}")
         return response.json()
 
-    def create_repo(self, name, private=True, description=None):
+    def create(self, repo, is_private=True, description=None):
         """Create a new repository for the authenticated user"""
         url = f"{self.base_url}/user/repos"
-        data = {"name": name, "private": private, "description": description}
+        data = {"name": repo, "private": is_private, "description": description}
         response = self.session.post(url, json=data)
         if response.status_code != 201:
             raise RepositoryError(f"Failed to create repository: {response.text}")
         return response.json()
 
-    def delete_repo(self, name):
+    def delete(self, repo):
         """Delete a repository for the authenticated user"""
-        url = f"{self.base_url}/repos/{self.username}/{name}"
+        url = f"{self.base_url}/repos/{self.username}/{repo}"
         response = self.session.delete(url)
         if response.status_code != 204:
             raise RepositoryError(f"Failed to delete repository: {response.text}")

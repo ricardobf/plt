@@ -1,16 +1,29 @@
 from .vcs_provider import VCSProvider
 from .github.github import GitHub
 
+
 class GitHubProvider(VCSProvider):
     """Provider for GitHub VCS operations."""
+
     def __init__(self):
         self.github = GitHub()
 
-    # def list_repos(self, project_key=None):
-    #     return self.github.repository.list(project_key)
+    def list(self, resource, args):
+        return self.github.repository.list()
 
-    # def create_repo(self, name, project_key=None, is_private=True, description=None):
-    #     return self.github.repository.create(name=name, project_key=project_key, is_private=is_private, description=description)
+    def create(self, resource, args):
+        return self.github.repository.create(
+            repo=args.repo, is_private=args.is_private, description=args.description
+        )
 
-    # def delete_repo(self, repo_slug):
-    #     return self.github.repository.delete(repo_slug)
+    def delete(self, resource, args):
+        return self.github.repository.delete(repo=args.repo)
+
+    def grant(self, resource, args):
+        return None
+
+    def revoke(self, resource, args):
+        return None
+
+    def configure_branch_permissions(self, resource, args):
+        return None

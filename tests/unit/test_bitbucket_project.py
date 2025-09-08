@@ -34,16 +34,13 @@ class TestProject:
 
     def test_create_success(self, project, mock_session):
         mock_session.post.return_value.status_code = 201
-        mock_session.post.return_value.json.return_value = {
-            "key": "PLT",
-            "name": "PLT Project",
-        }
+        mock_session.post.return_value.json.return_value = {"key": "PLT", "name": "PLT"}
 
-        result = project.create("plt-workspace", "PLT", "PLT Project")
+        result = project.create("plt-workspace", "PLT")
 
         mock_session.post.assert_called_once_with(
             "https://bitbucket.api.com/workspaces/plt-workspace/projects/",
-            json={"key": "PLT", "name": "PLT Project", "is_private": True},
+            json={"key": "PLT", "name": "PLT", "is_private": True},
         )
         assert result["key"] == "PLT"
 
