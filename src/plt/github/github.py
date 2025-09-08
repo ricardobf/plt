@@ -1,11 +1,7 @@
 import requests
 from requests.auth import HTTPBasicAuth
 from plt.config import Settings
-
-# from .project import Project
 from .repository import Repository
-
-# from .workspace import Workspace
 
 
 class GitHubError(Exception):
@@ -24,6 +20,4 @@ class GitHub:
         self.session = requests.Session()
         self.session.auth = self.auth
 
-        # self.project = Project(self.session, self.base_url)
         self.repository = Repository(self.session, self.base_url, self.username)
-        # self.workspace = Workspace(self.session, self.base_url)

@@ -16,7 +16,7 @@ def repository(mock_session):
 class TestRepository:
     def test_create_success(self, repository, mock_session):
         mock_session.post.return_value.status_code = 201
-        mock_session.post.return_value.json.return_value = {"name": "plt-repo"}
+        mock_session.post.return_value.json.return_value = {"repo": "plt-repo"}
 
         result = repository.create("plt-workspace", "plt-repo")
 
@@ -24,7 +24,7 @@ class TestRepository:
             "https://bitbucket.api.com/repositories/plt-workspace/plt-repo",
             json={"scm": "git", "is_private": True, "description": None},
         )
-        assert result["name"] == "plt-repo"
+        assert result["repo"] == "plt-repo"
 
     def test_create_failure(self, repository, mock_session):
         mock_session.post.return_value.status_code = 400
