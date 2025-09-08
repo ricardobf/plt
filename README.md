@@ -77,13 +77,13 @@ plt github repository --action list
 ### Create Repository
 
 ```bash
-plt github repository --action create --name test-repo
+plt github repository --action create --name plt-repo
 ```
 
 ### Delete Repository
 
 ```bash
-plt github repository --action delete --name test-repo
+plt github repository --action delete --name plt-repo
 ```
 
 ## Recompile requirements.txt file
