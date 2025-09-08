@@ -30,16 +30,10 @@ pip-compile --output-file=requirements.txt pyproject.toml
 plt bitbucket project --action list --workspace plt-workspace
 ```
 
-### Create Project
+### Create/Delete Project
 
 ```bash
-plt bitbucket project --action create --workspace plt-workspace --key PLT --name "PLT Project" --is-private
-```
-
-### Delete Project
-
-```bash
-plt bitbucket project --action delete --workspace plt-workspace --key PLT
+plt bitbucket project --action [create/delete] --workspace plt-workspace --key PLT --name "PLT Project" --is-private
 ```
 
 ### List User Permissions - Project
@@ -51,7 +45,7 @@ plt bitbucket project --action list-user-permissions --workspace plt-workspace -
 ### Grant/Revoke User Permissions - Project
 
 ```bash
-plt bitbucket project --action <grant/revoke>-user-permissions --workspace plt-workspace --key PLT
+plt bitbucket project --action [grant/revoke]-user-permissions --workspace plt-workspace --key PLT
 ```
 
 ### Create Repository
