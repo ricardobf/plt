@@ -45,7 +45,7 @@ plt bitbucket project --action list-user-permissions --workspace plt-workspace -
 ### Grant/Revoke User Permissions - Project
 
 ```bash
-plt bitbucket project --action [grant/revoke]-user-permissions --workspace plt-workspace --key PLT
+plt bitbucket project --action [grant/revoke]-user-permissions --workspace plt-workspace --key PLT --user-uuid "{user_uuid}" --permission write
 ```
 
 ### Create/Delete Repository

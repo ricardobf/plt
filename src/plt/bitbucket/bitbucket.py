@@ -9,16 +9,15 @@ from .workspace import Workspace
 class BitbucketError(Exception):
     pass
 
-
 class Bitbucket:
     def __init__(self):
         self.base_url = "https://api.bitbucket.org/2.0"
-        self.client_id = Settings.BITBUCKET_CLIENT_ID
-        self.client_secret = Settings.BITBUCKET_CLIENT_SECRET
+        self.username = Settings.BITBUCKET_USERNAME
+        self.api_token = Settings.BITBUCKET_API_TOKEN
 
-        if not self.client_id or not self.client_secret:
+        if not self.username or not self.api_token:
             raise BitbucketError(
-                "BITBUCKET_CLIENT_ID or BITBUCKET_CLIENT_SECRET not set"
+                "BITBUCKET_USERNAME or BITBUCKET_API_TOKEN not set"
             )
 
         self.session = requests.Session()
@@ -31,15 +30,6 @@ class Bitbucket:
         self.workspace = Workspace(self.session, self.base_url)
 
     def _authenticate(self):
-        """Authenticate and set the access token in session headers"""
-        url = "https://bitbucket.org/site/oauth2/access_token"
-        r = requests.post(
-            url,
-            auth=HTTPBasicAuth(self.client_id, self.client_secret),
-            data={"grant_type": "client_credentials"},
-        )
-        if r.status_code != 200:
-            raise BitbucketError(f"Error fetching token: {r.status_code} {r.text}")
-        data = r.json()
-        access_token = data["access_token"]
-        self.session.headers.update({"Authorization": f"Bearer {access_token}"})
+        """Authenticate using Bitbucket App Password"""
+        self.session.auth = HTTPBasicAuth(self.username, self.api_token)
+
