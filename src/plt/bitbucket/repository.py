@@ -70,3 +70,50 @@ class Repository:
                 f"Error revoking user permission: {r.status_code} {r.text}"
             )
         return f"User {user_uuid} permission revoked successfully."
+
+    def list_branch_permissions(self, workspace: str, repo_slug: str):
+        """List all branch permissions for a repository in the specified workspace"""
+        url = (
+            f"{self.base_url}/repositories/{workspace}/{repo_slug}/branch-restrictions"
+        )
+        r = self.session.get(url)
+        if r.status_code != 200:
+            raise RepositoryError(
+                f"Error listing branch permissions: {r.status_code} {r.text}"
+            )
+        return r.json()
+
+    def configure_branch_permissions(
+        self,
+        workspace: str,
+        repo_slug: str,
+        branch: str = "main",
+        exempt_users: list[str] | None = None,
+        exempt_groups: list[str] | None = None,
+    ):
+        """
+        Configure branch permissions to exempt certain users from requiring PRs.
+        For Bitbucket Cloud API.
+        """
+        if exempt_users is None:
+            exempt_users = []
+
+        url = (
+            f"{self.base_url}/repositories/{workspace}/{repo_slug}/branch-restrictions"
+        )
+
+        payload = [
+            {
+                "kind": "push",
+                "pattern": branch,
+                "users": exempt_users,
+                "groups": exempt_groups,
+            }
+        ]
+
+        r = self.session.post(url, json=payload)
+        if r.status_code not in (200, 201):
+            raise RepositoryError(
+                f"Error configuring branch permissions: {r.status_code} {r.text}"
+            )
+        return r.json()

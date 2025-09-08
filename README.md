@@ -39,25 +39,25 @@ plt bitbucket project --action delete --workspace plt-workspace --key PLT
 ### Create Repository
 
 ```bash
-plt bitbucket repository --action create --workspace plt-workspace --repo plt-repo --project-key PLT --is-private
+plt bitbucket repository --action create --workspace plt-workspace --key plt-repo --project-key PLT --is-private
 ```
 
 ### Delete Repository
 
 ```bash
-plt bitbucket repository --action delete --workspace plt-workspace --repo plt-repo --project-key PLT
+plt bitbucket repository --action delete --workspace plt-workspace --key plt-repo --project-key PLT
 ```
 
 ### List User Permissions to a given Repository
 
 ```bash
-plt bitbucket repository --action list-user-permissions --workspace plt-workspace --repo plt-repo
+plt bitbucket repository --action list-user-permissions --workspace plt-workspace --key plt-repo
 ```
 
 ### Grant User Access to a given Repository
 
 ```bash
-plt bitbucket repository --action grant-user-permission --workspace plt-workspace --repo plt-repo --user-uuid "{user_uuid}" --permission write
+plt bitbucket repository --action grant-user-permission --workspace plt-workspace --key plt-repo --user-uuid "{user_uuid}" --permission write
 ```
 
 ### List User Permissions in Workspace

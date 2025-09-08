@@ -72,6 +72,11 @@ def repository(
     permission: Annotated[
         str | None, typer.Option(help="Repository permission")
     ] = None,
+    branch: Annotated[str | None, typer.Option(help="Branch name")] = None,
+    exempt_users: Annotated[list[str] | None, typer.Option(help="Exempt users")] = None,
+    exempt_groups: Annotated[
+        list[str] | None, typer.Option(help="Exempt groups")
+    ] = None,
 ):
     bitbucket = Bitbucket()
     try:
@@ -94,6 +99,14 @@ def repository(
         elif action == "revoke-user-permissions":
             result = bitbucket.repository.revoke_user_permissions(
                 workspace, key, user_uuid
+            )
+            typer.echo(result)
+        elif action == "list-branch-permissions":
+            result = bitbucket.repository.list_branch_permissions(workspace, key)
+            typer.echo(result)
+        elif action == "configure-branch-permissions":
+            result = bitbucket.repository.configure_branch_permissions(
+                workspace, key, branch, exempt_users, exempt_groups
             )
             typer.echo(result)
         else:
