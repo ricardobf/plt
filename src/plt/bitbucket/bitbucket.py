@@ -9,6 +9,7 @@ from .workspace import Workspace
 class BitbucketError(Exception):
     pass
 
+
 class Bitbucket:
     def __init__(self):
         self.base_url = "https://api.bitbucket.org/2.0"
@@ -16,9 +17,7 @@ class Bitbucket:
         self.api_token = Settings.BITBUCKET_API_TOKEN
 
         if not self.username or not self.api_token:
-            raise BitbucketError(
-                "BITBUCKET_USERNAME or BITBUCKET_API_TOKEN not set"
-            )
+            raise BitbucketError("BITBUCKET_USERNAME or BITBUCKET_API_TOKEN not set")
 
         self.session = requests.Session()
         self.session.headers.update(
@@ -32,4 +31,3 @@ class Bitbucket:
     def _authenticate(self):
         """Authenticate using Bitbucket App Password"""
         self.session.auth = HTTPBasicAuth(self.username, self.api_token)
-
