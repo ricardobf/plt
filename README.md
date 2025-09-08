@@ -48,16 +48,10 @@ plt bitbucket project --action list-user-permissions --workspace plt-workspace -
 plt bitbucket project --action [grant/revoke]-user-permissions --workspace plt-workspace --key PLT
 ```
 
-### Create Repository
+### Create/Delete Repository
 
 ```bash
-plt bitbucket repository --action create --workspace plt-workspace --key plt-repo --project-key PLT --is-private
-```
-
-### Delete Repository
-
-```bash
-plt bitbucket repository --action delete --workspace plt-workspace --key plt-repo --project-key PLT
+plt bitbucket repository --action [create/delete] --workspace plt-workspace --key plt-repo --project-key PLT --is-private
 ```
 
 ### List User Permissions to a given Repository
@@ -86,16 +80,10 @@ plt bitbucket workspace --action list-user-permissions --workspace plt-workspace
 plt github repository --action list
 ```
 
-### Create Repository
+### Create/Delete Repository
 
 ```bash
-plt github repository --action create --name plt-repo
-```
-
-### Delete Repository
-
-```bash
-plt github repository --action delete --name plt-repo
+plt github repository --action [create/delete] --name plt-repo
 ```
 
 ## Tests
