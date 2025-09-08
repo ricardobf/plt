@@ -13,7 +13,13 @@ pip install -e .
 
 # Copy environment template and configure credentials
 cp .env.example .env
-# Edit .env with your Bitbucket OAuth Client ID and Secret
+# Edit .env with your Bitbucket OAuth Client ID and Secret, and GitHub Username and Access Token
+```
+
+## Recompile requirements.txt file
+
+```bash
+pip-compile --output-file=requirements.txt pyproject.toml
 ```
 
 ## Bitbucket Usage
@@ -34,6 +40,18 @@ plt bitbucket project --action create --workspace plt-workspace --key PLT --name
 
 ```bash
 plt bitbucket project --action delete --workspace plt-workspace --key PLT
+```
+
+### List User Permissions - Project
+
+```bash
+plt bitbucket project --action list-user-permissions --workspace plt-workspace --key PLT
+```
+
+### Grant/Revoke User Permissions - Project
+
+```bash
+plt bitbucket project --action <grant/revoke>-user-permissions --workspace plt-workspace --key PLT
 ```
 
 ### Create Repository
@@ -84,12 +102,6 @@ plt github repository --action create --name plt-repo
 
 ```bash
 plt github repository --action delete --name plt-repo
-```
-
-## Recompile requirements.txt file
-
-```bash
-pip-compile --output-file=requirements.txt pyproject.toml
 ```
 
 ## Tests
