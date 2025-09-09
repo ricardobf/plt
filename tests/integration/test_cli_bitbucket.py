@@ -1,3 +1,4 @@
+import os
 from typer.testing import CliRunner
 from plt.cli import app
 
