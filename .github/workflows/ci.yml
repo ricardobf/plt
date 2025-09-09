@@ -30,6 +30,7 @@ jobs:
           GITHUB_USERNAME: ${{ secrets.ENV_GITHUB_USERNAME }}
           GITHUB_TOKEN: ${{ secrets.ENV_GITHUB_TOKEN }}
         run: |
+          echo $BITBUCKET_USERNAME
           pytest -v
   docker:
     runs-on: ubuntu-latest
