@@ -1,4 +1,3 @@
-import os
 from typer.testing import CliRunner
 from plt.cli import app
 
@@ -10,10 +9,6 @@ class TestGitHubIntegration:
         result = runner.invoke(
             app,
             ["--provider", "github", "--resource", "repository", "--action", "list"],
-            env={
-                "GITHUB_USERNAME": os.getenv("GITHUB_USERNAME", ""),
-                "GITHUB_TOKEN": os.getenv("GITHUB_TOKEN", ""),
-            },
         )
         assert result.exit_code == 0
         assert "chat-app" in result.stdout

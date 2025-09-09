@@ -1,4 +1,3 @@
-import os
 from typer.testing import CliRunner
 from plt.cli import app
 
@@ -22,10 +21,6 @@ class TestBitbucketIntegration:
                 "plt-repo",
                 "--user-permissions",
             ],
-            env={
-                "BITBUCKET_USERNAME": os.getenv("BITBUCKET_USERNAME", ""),
-                "BITBUCKET_API_TOKEN": os.getenv("BITBUCKET_API_TOKEN", ""),
-            },
         )
         assert result.exit_code == 0
         assert "admin" in result.stdout
@@ -43,10 +38,6 @@ class TestBitbucketIntegration:
                 "--workspace",
                 "plt-workspace",
             ],
-            env={
-                "BITBUCKET_USERNAME": os.getenv("BITBUCKET_USERNAME", ""),
-                "BITBUCKET_API_TOKEN": os.getenv("BITBUCKET_API_TOKEN", ""),
-            },
         )
         assert result.exit_code == 0
         assert "PLT" in result.stdout
@@ -67,10 +58,6 @@ class TestBitbucketIntegration:
                 "PLT",
                 "--user-permissions",
             ],
-            env={
-                "BITBUCKET_USERNAME": os.getenv("BITBUCKET_USERNAME", ""),
-                "BITBUCKET_API_TOKEN": os.getenv("BITBUCKET_API_TOKEN", ""),
-            },
         )
         assert result.exit_code == 0
 
@@ -88,10 +75,6 @@ class TestBitbucketIntegration:
                 "plt-workspace",
                 "--user-permissions",
             ],
-            env={
-                "BITBUCKET_USERNAME": os.getenv("BITBUCKET_USERNAME", ""),
-                "BITBUCKET_API_TOKEN": os.getenv("BITBUCKET_API_TOKEN", ""),
-            },
         )
         assert result.exit_code == 0
         assert "Ricardo Barbosa" in result.stdout
