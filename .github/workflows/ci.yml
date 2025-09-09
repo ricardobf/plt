@@ -23,6 +23,12 @@ jobs:
       - name: Format with black
         run: |
           black --check .
+      - name: Create .env file
+        run: |
+          echo "BITBUCKET_USERNAME=${{ secrets.ENV_BITBUCKET_USERNAME }}" >> .env
+          echo "BITBUCKET_API_TOKEN=${{ secrets.ENV_BITBUCKET_API_TOKEN }}" >> .env
+          echo "GITHUB_USERNAME=${{ secrets.ENV_GITHUB_USERNAME }}" >> .env
+          echo "GITHUB_TOKEN=${{ secrets.ENV_GITHUB_TOKEN }}" >> .env
       - name: Run tests
         run: |
           pytest -v
