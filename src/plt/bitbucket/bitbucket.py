@@ -29,5 +29,5 @@ class Bitbucket:
         self.workspace = Workspace(self.session, self.base_url)
 
     def _authenticate(self):
-        """Authenticate using Bitbucket App Password"""
+        """Authenticate using Bitbucket API token"""
         self.session.auth = HTTPBasicAuth(self.username, self.api_token)

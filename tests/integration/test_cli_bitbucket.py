@@ -1,6 +1,85 @@
-# import pytest
-# from typer.testing import CliRunner
-# from unittest.mock import patch, MagicMock
+from typer.testing import CliRunner
+from plt.cli import app
+
+runner = CliRunner()
+
+
+class TestBitbucketIntegration:
+    def test_list_repository_user_permissions_integration(self):
+        result = runner.invoke(
+            app,
+            [
+                "--provider",
+                "bitbucket",
+                "--resource",
+                "repository",
+                "--action",
+                "list",
+                "--workspace",
+                "plt-workspace",
+                "--repo",
+                "plt-repo",
+                "--user-permissions",
+            ],
+        )
+        assert result.exit_code == 0
+        assert "admin" in result.stdout
+
+    def test_list_projects_integration(self):
+        result = runner.invoke(
+            app,
+            [
+                "--provider",
+                "bitbucket",
+                "--resource",
+                "project",
+                "--action",
+                "list",
+                "--workspace",
+                "plt-workspace",
+            ],
+        )
+        assert result.exit_code == 0
+        assert "PLT" in result.stdout
+
+    def test_list_project_user_permissions_integration(self):
+        result = runner.invoke(
+            app,
+            [
+                "--provider",
+                "bitbucket",
+                "--resource",
+                "project",
+                "--action",
+                "list",
+                "--workspace",
+                "plt-workspace",
+                "--project",
+                "PLT",
+                "--user-permissions",
+            ],
+        )
+        assert result.exit_code == 0
+
+    def test_list_workspace_user_permissions_integration(self):
+        result = runner.invoke(
+            app,
+            [
+                "--provider",
+                "bitbucket",
+                "--resource",
+                "workspace",
+                "--action",
+                "list",
+                "--workspace",
+                "plt-workspace",
+                "--user-permissions",
+            ],
+        )
+        assert result.exit_code == 0
+        assert "Ricardo Barbosa" in result.stdout
+        assert "owner" in result.stdout
+
 
 # from plt.cli import app
 
