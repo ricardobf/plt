@@ -1,6 +1,6 @@
 # plt
 PLT CLI Tool  
-A Python CLI that performs common Bitbucket/GitHub admin tasks.
+A Python CLI that performs common VCS admin tasks (Currently available for Bitbucket and GitHub).
 
 ## Quickstart
 
@@ -13,13 +13,7 @@ pip install -e .
 
 # Copy environment template and configure credentials
 cp .env.example .env
-# Edit .env with your Bitbucket Username and API Token, and GitHub Username and Access Token
-```
-
-## Recompile requirements.txt file
-
-```bash
-pip-compile --output-file=requirements.txt pyproject.toml
+# Edit .env with your Bitbucket Username and API Token or/and GitHub Username and Access Token
 ```
 
 ## Bitbucket Usage
@@ -110,4 +104,10 @@ export LOG_LEVEL=DEBUG
 ### Run
 ```bash
 python -m pytest -v
+```
+
+## Recompile requirements.txt file if needed
+
+```bash
+pip-compile --output-file=requirements.txt pyproject.toml
 ```
