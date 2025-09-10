@@ -13,7 +13,7 @@ pip install -e .
 
 # Copy environment template and configure credentials
 cp .env.example .env
-# Edit .env with your Bitbucket OAuth Client ID and Secret, and GitHub Username and Access Token
+# Edit .env with your Bitbucket Username and API Token, and GitHub Username and Access Token
 ```
 
 ## Recompile requirements.txt file
