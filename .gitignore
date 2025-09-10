@@ -222,3 +222,5 @@ crash.log
 tfplan
 
 *.plan
+
+.DS_Store
