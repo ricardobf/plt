@@ -23,11 +23,7 @@ class Bitbucket:
         self.session.headers.update(
             {"Accept": "application/json", "Content-Type": "application/json"}
         )
-        self._authenticate()
+        self.session.auth = HTTPBasicAuth(self.username, self.api_token)
         self.project = Project(self.session, self.base_url)
         self.repository = Repository(self.session, self.base_url)
         self.workspace = Workspace(self.session, self.base_url)
-
-    def _authenticate(self):
-        """Authenticate using Bitbucket API token"""
-        self.session.auth = HTTPBasicAuth(self.username, self.api_token)

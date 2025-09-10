@@ -1,10 +1,16 @@
 import typer
+import logging
+import os
 from typing_extensions import Annotated
 from .bitbucket_provider import BitbucketProvider
 from .github_provider import GitHubProvider
 from .args import PLTArgs
 
 app = typer.Typer(help="PLT Challenge: VCS management CLI")
+
+# Get log level from environment, default to ERROR
+log_level = os.getenv("LOG_LEVEL", "ERROR")
+logging.basicConfig(level=log_level)
 
 
 def get_provider(name: str):
@@ -13,6 +19,7 @@ def get_provider(name: str):
     elif name == "github":
         return GitHubProvider()
     else:
+        logging.error(f"Unknown provider: {name}")
         raise ValueError(f"Unknown provider: {name}")
 
 
@@ -49,6 +56,7 @@ def plt(
 ):
     """Main entry point for the PLT CLI."""
     vcs = get_provider(provider)
+    logging.debug(f"Using VCS provider: {provider}")
 
     args = PLTArgs(
         workspace=workspace,
@@ -76,4 +84,5 @@ def plt(
     elif action == "configure-branch-permissions":
         typer.echo(vcs.configure_branch_permissions(resource, args))
     else:
-        typer.echo(f"Action '{action}' not supported.")
+        logging.error(f"Action '{action}' not supported.")
+        raise ValueError(f"Action '{action}' not supported.")

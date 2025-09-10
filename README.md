@@ -97,6 +97,14 @@ plt --provider github --resource repository --action create --repo plt-repo
 plt --provider github --resource repository --action delete --repo plt-repo
 ```
 
+## Logging
+
+Logging is currently enabled and the level is set to ERROR only.
+If you want to change it for DEBUG, you can run the following command to set it via ENV var:
+```bash
+export LOG_LEVEL=DEBUG
+```
+
 ## Tests
 
 ### Run

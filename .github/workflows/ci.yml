@@ -29,8 +29,8 @@ jobs:
           BITBUCKET_API_TOKEN: ${{ secrets.ENV_BITBUCKET_API_TOKEN }}
           GITHUB_USERNAME: ${{ secrets.ENV_GITHUB_USERNAME }}
           GITHUB_TOKEN: ${{ secrets.ENV_GITHUB_TOKEN }}
+          LOG_LEVEL: DEBUG
         run: |
-          echo $BITBUCKET_USERNAME
           pytest -v
   docker:
     runs-on: ubuntu-latest
@@ -40,6 +40,8 @@ jobs:
         run: |
           docker build -t plt-cli:latest .
       - name: Run Docker container
+        env:
+          LOG_LEVEL: DEBUG
         run: |
           docker run plt-cli:latest --help
   terraform:
